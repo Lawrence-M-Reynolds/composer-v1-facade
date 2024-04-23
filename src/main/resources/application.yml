@@ -1,4 +1,4 @@
-spring.application.name: composer-facade
+spring.application.name: facade
 server.port: 7000
 app:
   composer-service:

@@ -1,20 +1,18 @@
-package com.reynolds.composerfacade.controllers;
+package com.reynolds.composer.v1.composerfacade.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reynolds.api.composerFacade.ComposerFacadeController;
-import com.reynolds.api.core.composition.Composition;
-import com.reynolds.composerfacade.services.ComposerIntegration;
-import com.reynolds.util.http.ServiceUtil;
+import com.reynolds.composer.v1.api.composerFacade.ComposerFacadeController;
+import com.reynolds.composer.v1.api.core.composition.composition.Composition;
+import com.reynolds.composer.v1.composerfacade.services.ComposerIntegration;
+import com.reynolds.composer.v1.util.http.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 @RestController

@@ -1,10 +1,9 @@
-package com.reynolds.composerfacade.services;
+package com.reynolds.composer.v1.composerfacade.services;
 
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 
-import com.reynolds.api.core.composition.Composition;
-import com.reynolds.api.core.composition.CompositionController;
+import com.reynolds.composer.v1.api.core.composition.composition.Composition;
+import com.reynolds.composer.v1.api.core.composition.composition.CompositionController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

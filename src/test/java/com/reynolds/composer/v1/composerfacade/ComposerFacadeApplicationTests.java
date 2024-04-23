@@ -1,4 +1,4 @@
-package com.reynolds.composerfacade;
+package com.reynolds.composer.v1.composerfacade;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

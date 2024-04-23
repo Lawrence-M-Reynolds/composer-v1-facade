@@ -2,8 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>com.reynolds</groupId>
+        <groupId>com.reynolds.composer.v1</groupId>
         <artifactId>composer-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../composer-parent</relativePath>
@@ -11,21 +12,24 @@
 
     <artifactId>composer-facade</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>composer-facade</name>
     <description>composer-facade</description>
+
     <properties>
         <java.version>17</java.version>
     </properties>
+
     <dependencies>
         <!-- Project -->
         <dependency>
-            <groupId>com.reynolds</groupId>
-            <artifactId>api</artifactId>
+            <groupId>com.reynolds.composer.v1</groupId>
+            <artifactId>composer-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.reynolds</groupId>
-            <artifactId>util</artifactId>
+            <groupId>com.reynolds.composer.v1</groupId>
+            <artifactId>composer-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
