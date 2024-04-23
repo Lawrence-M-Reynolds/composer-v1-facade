@@ -1,0 +1,25 @@
+spring.application.name: composer-facade
+server.port: 7000
+app:
+  composer-service:
+    host: localhost
+    port: 7000
+  composition-service:
+    host: localhost
+    port: 7001
+
+logging:
+  level:
+    root: INFO
+    web: debug
+    sql: debug
+    com.reynolds: DEBUG
+    org.springframework.data.mongodb.core.ReactiveMongoTemplate: DEBUG
+
+---
+spring.config.activate.on-profile: docker
+server.port: 8080
+app:
+  composition-service:
+    host: composition
+    port: 8080
