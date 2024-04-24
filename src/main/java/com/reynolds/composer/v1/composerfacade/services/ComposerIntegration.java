@@ -24,11 +24,11 @@ public class ComposerIntegration implements CompositionController {
     private RestTemplate restTemplate;
 
     public ComposerIntegration (RestTemplate restTemplate,
-                                @Value("${app.composition-service.host}") String compostionServiceHost,
-                                @Value("${app.composition-service.port}") int compositionServicePort) {
+                                @Value("${app.composition-service.host}") String serviceHost,
+                                @Value("${app.composition-service.port}") int servicePort) {
 
         this.restTemplate = restTemplate;
-        compostionServiceUrl = "http://" + compostionServiceHost + ":" + compositionServicePort + "/compositions";
+        compostionServiceUrl = "http://" + serviceHost + ":" + servicePort + "/compositions";
     }
 
     @Override

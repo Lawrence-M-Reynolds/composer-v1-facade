@@ -7,6 +7,9 @@ app:
   composition-service:
     host: localhost
     port: 7001
+  generation-service:
+    host: localhost
+    port: 7002
 
 logging:
   level:
@@ -22,4 +25,7 @@ server.port: 8080
 app:
   composition-service:
     host: composition
+    port: 8080
+  generation-service:
+    host: generation
     port: 8080

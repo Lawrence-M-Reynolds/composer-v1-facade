@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reynolds.composer.v1.api.composerFacade.ComposerFacadeController;
 import com.reynolds.composer.v1.api.core.composition.composition.Composition;
 import com.reynolds.composer.v1.composerfacade.services.ComposerIntegration;
+import com.reynolds.composer.v1.composerfacade.services.GenerationServiceIntegration;
 import com.reynolds.composer.v1.util.http.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +23,14 @@ public class ComposerFacadeControllerImpl implements ComposerFacadeController {
 
     private ServiceUtil serviceUtil;
     private ComposerIntegration composerIntegration;
+    private GenerationServiceIntegration generationServiceIntegration;
 
-    public ComposerFacadeControllerImpl(ServiceUtil serviceUtil, ComposerIntegration composerIntegration) {
+    public ComposerFacadeControllerImpl(ServiceUtil serviceUtil,
+                                        ComposerIntegration composerIntegration,
+                                        GenerationServiceIntegration generationServiceIntegration) {
         this.serviceUtil = serviceUtil;
         this.composerIntegration = composerIntegration;
+        this.generationServiceIntegration = generationServiceIntegration;
     }
 
     @Override
@@ -37,6 +42,11 @@ public class ComposerFacadeControllerImpl implements ComposerFacadeController {
     public ResponseEntity<Composition> uploadFile (@RequestParam("file") MultipartFile file) throws IOException {
         Composition composition = new ObjectMapper().readValue(file.getInputStream(), Composition.class);
         return composerIntegration.save(composition);
+    }
+
+    @Override
+    public ResponseEntity<Void> processComposition(long compositionId) throws IOException {
+        return generationServiceIntegration.processComposition(compositionId);
     }
 
     @Override
