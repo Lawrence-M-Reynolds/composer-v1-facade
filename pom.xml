@@ -7,14 +7,13 @@
         <groupId>com.reynolds.composer.v1</groupId>
         <artifactId>composer-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../composer-parent</relativePath>
     </parent>
 
     <artifactId>composer-facade</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>composer-facade</name>
-    <description>composer-facade</description>
+    <name>composer-v1-facade</name>
+    <description>composer-v1-facade</description>
 
     <properties>
         <java.version>17</java.version>
