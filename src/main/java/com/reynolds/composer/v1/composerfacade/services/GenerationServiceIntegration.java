@@ -42,7 +42,7 @@ public class GenerationServiceIntegration implements GeneratorController {
         MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
         map.add("compositionId", Long.toString(compositionId));
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
         return restTemplate.postForEntity(compostionServiceUrl + "/process", request, Void.class);
     }

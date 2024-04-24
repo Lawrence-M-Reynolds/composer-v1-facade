@@ -16,19 +16,25 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-public class ComposerIntegration implements CompositionController {
+public class CompositionServiceIntegration implements CompositionController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final String compostionServiceUrl;
     private RestTemplate restTemplate;
 
-    public ComposerIntegration (RestTemplate restTemplate,
-                                @Value("${app.composition-service.host}") String serviceHost,
-                                @Value("${app.composition-service.port}") int servicePort) {
+    public CompositionServiceIntegration(RestTemplate restTemplate,
+                                         @Value("${app.composition-service.host}") String serviceHost,
+                                         @Value("${app.composition-service.port}") int servicePort) {
 
         this.restTemplate = restTemplate;
         compostionServiceUrl = "http://" + serviceHost + ":" + servicePort + "/compositions";
+    }
+
+    @Override
+    public ResponseEntity<Composition> getComposition(long compositionId) {
+        String url = compostionServiceUrl + "/" + compositionId;
+        return restTemplate.exchange(url, GET, null, Composition.class);
     }
 
     @Override
