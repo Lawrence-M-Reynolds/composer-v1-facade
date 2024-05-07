@@ -3,13 +3,13 @@ package com.reynolds.composer.v1.composerfacade.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reynolds.composer.v1.api.composerFacade.ComposerFacadeController;
 import com.reynolds.composer.v1.api.core.composition.composition.Composition;
+import com.reynolds.composer.v1.api.core.composition.composition.generated.CompositionVariation;
 import com.reynolds.composer.v1.composerfacade.services.CompositionServiceIntegration;
 import com.reynolds.composer.v1.composerfacade.services.GenerationServiceIntegration;
 import com.reynolds.composer.v1.util.http.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +49,16 @@ public class ComposerFacadeControllerImpl implements ComposerFacadeController {
     @Override
     public ResponseEntity<Void> processComposition(long compositionId) throws IOException {
         return generationServiceIntegration.processComposition(compositionId);
+    }
+
+    @Override
+    public int getGeneratedCount(long compositionId) throws IOException {
+        return generationServiceIntegration.getGeneratedCountForComposition(compositionId);
+    }
+
+    @Override
+    public List<CompositionVariation> getGeneratedVariations(long compositionId) throws IOException {
+        return generationServiceIntegration.getGeneratedVariationsForComposition(compositionId);
     }
 
     @Override

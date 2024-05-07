@@ -1,7 +1,5 @@
 package com.reynolds.composer.v1.composerfacade.services;
 
-import static org.springframework.http.HttpMethod.GET;
-
 import com.reynolds.composer.v1.api.core.composition.composition.Composition;
 import com.reynolds.composer.v1.api.core.composition.composition.CompositionController;
 import org.slf4j.Logger;
@@ -14,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.springframework.http.HttpMethod.GET;
 
 @Component
 public class CompositionServiceIntegration implements CompositionController {
