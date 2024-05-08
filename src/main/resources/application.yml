@@ -1,9 +1,6 @@
 spring.application.name: facade
 server.port: 7000
 app:
-  composer-service:
-    host: localhost
-    port: 7000
   composition-service:
     host: localhost
     port: 7001
@@ -24,8 +21,8 @@ spring.config.activate.on-profile: docker
 server.port: 8080
 app:
   composition-service:
-    host: composition
+    host: ${COMPOSITION_SERVICE_HOSTNAME:composition-microservice}
     port: 8080
   generation-service:
-    host: generation
+    host: ${GENERATOR_SERVICE_HOSTNAME:generator-microservice}
     port: 8080
