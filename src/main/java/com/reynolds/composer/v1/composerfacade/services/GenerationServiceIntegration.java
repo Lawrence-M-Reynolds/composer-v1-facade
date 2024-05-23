@@ -4,67 +4,64 @@ import com.reynolds.composer.v1.api.core.composition.composition.generated.Compo
 import com.reynolds.composer.v1.api.core.generator.generator.GeneratorController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-
-import static org.springframework.http.HttpMethod.GET;
 
 @Component
 public class GenerationServiceIntegration implements GeneratorController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final String compostionServiceUrl;
-    private RestTemplate restTemplate;
+    private final String serviceUrl;
 
-    public GenerationServiceIntegration (RestTemplate restTemplate,
+    private final WebClient webClient;
+
+    @Autowired
+    public GenerationServiceIntegration (WebClient.Builder webClient,
                                 @Value("${app.generation-service.host}") String serviceHost,
-                                @Value("${app.generation-service.port}") int servicePort) {
-
-        this.restTemplate = restTemplate;
-        compostionServiceUrl = "http://" + serviceHost + ":" + servicePort + "/generator";
+                                @Value("${app.generation-service.port}") int servicePort)
+    {
+        serviceUrl = "http://" + serviceHost + ":" + servicePort + "/generator";
+        this.webClient = webClient.baseUrl(serviceUrl).build();
     }
 
     @Override
-    public ResponseEntity<Void> processComposition(long compositionId) throws IOException {
+    public Mono<List<String>> processComposition(long compositionId) throws IOException {
         logger.debug("Generating composition " + compositionId);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
-        map.add("compositionId", Long.toString(compositionId));
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        return restTemplate.postForEntity(compostionServiceUrl + "/process", request, Void.class);
+        return webClient.post().uri(uriBuilder -> uriBuilder
+                .path("/process")
+                .queryParam("compositionId", Long.toString(compositionId))
+                .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {});
     }
 
     @Override
-    public int getGeneratedCountForComposition(long compositionId) throws IOException {
-        String url = compostionServiceUrl + "/getGeneratedCount/" + compositionId;
-        logger.debug("Calling URL: {}", url);
-        String countString = restTemplate.getForObject(url, String.class);
-        return Optional.ofNullable(countString).map(Integer::parseInt).orElse(0);
+    public Mono<Integer> getGeneratedCountForComposition(long compositionId) throws IOException {
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                                .path("/getGeneratedCount")
+                                .pathSegment(Long.toString(compositionId))
+                                .build())
+                .retrieve()
+                .bodyToMono(Integer.class);
     }
 
     @Override
-    public List<CompositionVariation> getGeneratedVariationsForComposition(long compositionId) throws IOException {
-        String url = compostionServiceUrl + "/getGeneratedVariations/" + compositionId;
-        logger.debug("Calling URL: {}", url);
-        return restTemplate.exchange(url, GET, null,
-                new ParameterizedTypeReference<List<CompositionVariation>>() {}).getBody();
+    public Flux<CompositionVariation> getGeneratedVariationsForComposition(long compositionId) throws IOException {
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                        .path("/getGeneratedVariations")
+                        .pathSegment(Long.toString(compositionId))
+                        .build())
+                .retrieve()
+                .bodyToFlux(CompositionVariation.class);
     }
 }

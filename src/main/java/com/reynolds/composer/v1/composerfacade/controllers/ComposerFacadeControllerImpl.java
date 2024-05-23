@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,17 +49,17 @@ public class ComposerFacadeControllerImpl implements ComposerFacadeController {
     }
 
     @Override
-    public ResponseEntity<Void> processComposition(long compositionId) throws IOException {
+    public Mono<List<String>> processComposition(long compositionId) throws IOException {
         return generationServiceIntegration.processComposition(compositionId);
     }
 
     @Override
-    public int getGeneratedCount(long compositionId) throws IOException {
+    public Mono<Integer> getGeneratedCount(long compositionId) throws IOException {
         return generationServiceIntegration.getGeneratedCountForComposition(compositionId);
     }
 
     @Override
-    public List<CompositionVariation> getGeneratedVariations(long compositionId) throws IOException {
+    public Flux<CompositionVariation> getGeneratedVariations(long compositionId) throws IOException {
         return generationServiceIntegration.getGeneratedVariationsForComposition(compositionId);
     }
 

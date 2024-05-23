@@ -15,7 +15,13 @@ logging:
     sql: debug
     com.reynolds: DEBUG
     org.springframework.data.mongodb.core.ReactiveMongoTemplate: DEBUG
-
+    reactor:
+      netty:
+        http:
+          client: DEBUG
+    org: DEBUG
+    okhttp3:
+      OkHttpClient: DEBUG
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
