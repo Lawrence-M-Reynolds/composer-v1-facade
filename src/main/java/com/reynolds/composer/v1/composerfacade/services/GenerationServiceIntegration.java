@@ -13,15 +13,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 @Component
 public class GenerationServiceIntegration implements GeneratorController {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private final String serviceUrl;
-
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final WebClient webClient;
 
     @Autowired
@@ -29,7 +27,7 @@ public class GenerationServiceIntegration implements GeneratorController {
                                 @Value("${app.generation-service.host}") String serviceHost,
                                 @Value("${app.generation-service.port}") int servicePort)
     {
-        serviceUrl = "http://" + serviceHost + ":" + servicePort + "/generator";
+        String serviceUrl = "http://" + serviceHost + ":" + servicePort + "/generator";
         this.webClient = webClient.baseUrl(serviceUrl).build();
     }
 
