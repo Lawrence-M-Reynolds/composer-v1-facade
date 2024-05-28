@@ -9,21 +9,24 @@ import com.reynolds.composer.v1.composerfacade.services.GenerationServiceIntegra
 import com.reynolds.composer.v1.util.http.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 @RestController
 public class ComposerFacadeControllerImpl implements ComposerFacadeController {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final ServiceUtil serviceUtil;
     private final CompositionServiceIntegration compositionServiceIntegration;
@@ -38,12 +41,12 @@ public class ComposerFacadeControllerImpl implements ComposerFacadeController {
     }
 
     @Override
-    public ResponseEntity<Composition> getComposition(@PathVariable("compositionId") int compositionId) {
+    public Mono<Composition> getComposition(@PathVariable("compositionId") int compositionId) {
         return compositionServiceIntegration.getComposition(compositionId);
     }
 
     @Override
-    public ResponseEntity<Composition> uploadFile (@RequestParam("file") MultipartFile file) throws IOException {
+    public Mono<Composition> uploadFile (@RequestParam("file") MultipartFile file) throws IOException {
         Composition composition = new ObjectMapper().readValue(file.getInputStream(), Composition.class);
         return compositionServiceIntegration.save(composition);
     }
@@ -64,12 +67,7 @@ public class ComposerFacadeControllerImpl implements ComposerFacadeController {
     }
 
     @Override
-    public List<Composition> getCompositions() {
+    public Flux<Composition> getCompositions() {
         return compositionServiceIntegration.getCompositions();
-    }
-
-    @Override
-    public String testEndpoint() {
-        return compositionServiceIntegration.testEndpoint();
     }
 }
